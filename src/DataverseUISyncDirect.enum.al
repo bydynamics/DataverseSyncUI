@@ -1,4 +1,4 @@
-enum 70100 "Dataverse UI Sync Direct."
+enum 80000 "Dataverse UI Sync Direct."
 {
     Extensible = false;
 

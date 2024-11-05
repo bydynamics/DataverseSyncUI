@@ -1,4 +1,4 @@
-permissionset 70100 DataverseUISetup
+permissionset 80000 DataverseUISetup
 {
     Assignable = true;
     Permissions = tabledata "CDS fps_Employee"=RIMD,
