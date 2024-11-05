@@ -43,12 +43,44 @@ ExternalType = 'Uniqueidentifier';
 Description = 'Unieke id van entiteitsexemplaren';
 Caption = 'Job';
 }
+field(39; fps_jobstatus; Option)
+{
+ExternalName = 'fps_jobstatus';
+ExternalType = 'Picklist';
+Description = 'Type the Job Status of the Job';
+Caption = 'Job Status';
+InitValue = Planning;
+OptionCaption = 'Planning,Quote,Order,Delivered,Completed,Rejected';
+OptionOrdinalValues = 0, 1, 2, 3, 4, 5;
+OptionMembers = Planning,Quote,Order,Delivered,Completed,Rejected;
+}
 field(34; fps_no; Text[20])
 {
 ExternalName = 'fps_no';
 ExternalType = 'String';
 Description = 'Type the No. of the Job';
 Caption = 'No.';
+}
+field(36; fps_projectmanager; Text[50])
+{
+ExternalName = 'fps_projectmanager';
+ExternalType = 'String';
+Description = 'Type the Project Manager of the Job';
+Caption = 'Project Manager';
+}
+field(38; fps_selltocustomername; Text[100])
+{
+ExternalName = 'fps_selltocustomername';
+ExternalType = 'String';
+Description = 'Type the Sell-to Customer Name of the Job';
+Caption = 'Sell-to Customer Name';
+}
+field(37; fps_selltocustomerno; Text[20])
+{
+ExternalName = 'fps_selltocustomerno';
+ExternalType = 'String';
+Description = 'Type the Sell-to Customer No. of the Job';
+Caption = 'Sell-to Customer No.';
 }
 field(30; importsequencenumber; Integer)
 {
@@ -57,7 +89,7 @@ ExternalType = 'Integer';
 Description = 'Volgnummer van de import waarmee deze record is gemaakt.';
 Caption = 'Volgnummer van de importbewerking';
 }
-field(5; ModifiedBy; GUID)
+field(5; modifiedby; GUID)
 {
 ExternalName = 'modifiedby';
 ExternalType = 'Lookup';
@@ -65,7 +97,7 @@ Description = 'Unieke id van de gebruiker die de record heeft gewijzigd.';
 Caption = 'Gewijzigd door';
 TableRelation = "CRM Systemuser"."SystemUserId";
 }
-field(4; Modifiedon; Date)
+field(4; modifiedon; Date)
 {
 ExternalName = 'modifiedon';
 ExternalType = 'DateTime';
@@ -120,28 +152,28 @@ Description = 'Unieke id van de gebruiker die eigenaar is van de record.';
 Caption = 'Gebruiker die eigenaar is';
 TableRelation = "CRM Systemuser"."SystemUserId";
 }
-field(25; StateCode; Option)
+field(25; statecode; Option)
 {
-    Caption = 'Status';
-    Description = 'Shows whether the contact is active or inactive. Inactive contacts are read-only and can''t be edited unless they are reactivated.';
-    ExternalAccess = Modify;
-    ExternalName = 'statecode';
-    ExternalType = 'State';
-    InitValue = Active;
-    OptionCaption = 'Active,Inactive';
-    OptionOrdinalValues = 0, 1;
-    OptionMembers = Active,Inactive;
+Caption = 'Status';
+Description = 'Shows whether the contact is active or inactive. Inactive contacts are read-only and can''t be edited unless they are reactivated.';
+ExternalAccess = Modify;
+ExternalName = 'statecode';
+ExternalType = 'State';
+InitValue = Active;
+OptionCaption = 'Active,Inactive';
+OptionOrdinalValues = 0, 1;
+OptionMembers = Active,Inactive;
 }
-field(27; StatusCode; Option)
+field(27; statuscode; Option)
 {
-    Caption = 'Status Reason';
-    Description = 'Select the contact''s status.';
-    ExternalName = 'statuscode';
-    ExternalType = 'Status';
-    InitValue = " ";
-    OptionCaption = ' ,Active,Inactive';
-    OptionOrdinalValues = -1, 1, 2;
-    OptionMembers = " ",Active,Inactive;
+Caption = 'Status Reason';
+Description = 'Select the contact''s status.';
+ExternalName = 'statuscode';
+ExternalType = 'Status';
+InitValue = " ";
+OptionCaption = ' ,Active,Inactive';
+OptionOrdinalValues = -1, 1, 2;
+OptionMembers = " ",Active,Inactive;
 }
 field(32; timezoneruleversionnumber; Integer)
 {
