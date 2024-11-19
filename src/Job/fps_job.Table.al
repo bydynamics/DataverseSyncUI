@@ -13,7 +13,7 @@ Description = 'Unieke id van de gebruiker die de record heeft gemaakt.';
 Caption = 'Gemaakt door';
 TableRelation = "CRM Systemuser"."SystemUserId";
 }
-field(2; createdon; Date)
+field(2; createdon; DateTime)
 {
 ExternalName = 'createdon';
 ExternalType = 'DateTime';
@@ -97,7 +97,7 @@ Description = 'Unieke id van de gebruiker die de record heeft gewijzigd.';
 Caption = 'Gewijzigd door';
 TableRelation = "CRM Systemuser"."SystemUserId";
 }
-field(4; modifiedon; Date)
+field(4; modifiedon; DateTime)
 {
 ExternalName = 'modifiedon';
 ExternalType = 'DateTime';
@@ -195,6 +195,25 @@ ExternalName = 'versionnumber';
 ExternalType = 'BigInt';
 Description = 'Versienummer';
 Caption = 'Versienummer';
+}
+
+field(62; CustomerId; Guid)
+{
+    Caption = 'Customer';
+    Description = 'Select the customer account or contact to provide a quick link to additional customer details, such as account information, activities, and opportunities.';
+    ExternalName = 'cr43e_customerid';
+    ExternalType = 'Customer';
+    TableRelation = IF (CustomerIdType = CONST(account)) "CRM Account".AccountId
+    ELSE
+    IF (CustomerIdType = CONST(contact)) "CRM Contact".ContactId;
+}
+field(63; CustomerIdType; Option)
+{                       
+    Caption = 'Customer Type';
+    ExternalName = 'cr43e_customeridtype';
+    ExternalType = 'EntityName';
+    OptionCaption = ' ,account,contact';
+    OptionMembers = " ",account,contact;
 }
 }
 keys

@@ -75,7 +75,7 @@ pageextension 80004 "Job Synch Extension" extends "Job Card"
                             CRMIntegrationManagement.DefineCoupling(Rec.RecordId);
                         end;
                     }
-                    action(DeleteCDSCoupling)
+                    action(DeleteCDSCoupling)       
                     {
                         Caption = 'Delete Coupling';
                         ApplicationArea = All;

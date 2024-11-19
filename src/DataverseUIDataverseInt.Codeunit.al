@@ -1,4 +1,4 @@
-codeunit 50118 "Dataverse UI Dataverse Integr."
+codeunit 50128 "Dataverse UI Dataverse Integr."
 {
     internal procedure CreateTable(DataverseUITable: Record "Dataverse UI Table")
     var
