@@ -1,4 +1,4 @@
-page 80006 "UserSetupDataverse"
+page 80006 "Dataverse User Setup"
 {
     ApplicationArea = Suite;
     Caption = 'Usersetup - Dataverse';
@@ -101,4 +101,116 @@ page 80006 "UserSetupDataverse"
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action(CreateFromCRM)
+            {
+                ApplicationArea = Suite;
+                Caption = 'Create in Business Central';
+                Image = NewCustomer;
+                ToolTip = 'Generate the entity from the coupled Dataverse User.';
+
+                trigger OnAction()
+                var
+                    CDSUsersetup: Record "CDS fps_usersetup";
+                    CRMIntegrationManagement: Codeunit "CRM Integration Management";
+                begin
+                    CurrPage.SetSelectionFilter(CDSUsersetup);
+                    CRMIntegrationManagement.CreateNewRecordsFromSelectedCRMRecords(CDSUsersetup);
+                end;
+            }
+            action(ShowOnlyUncoupled)
+            {
+                ApplicationArea = Suite;
+                Caption = 'Hide Coupled Users';
+                Image = FilterLines;
+                ToolTip = 'Do not show coupled Users.';
+
+                trigger OnAction()
+                begin
+                    MarkedOnly(true);
+                end;
+            }
+            action(ShowAll)
+            {
+                ApplicationArea = Suite;
+                Caption = 'Show Coupled Users';
+                Image = ClearFilter;
+                ToolTip = 'Show coupled Users.';
+
+                trigger OnAction()
+                begin
+                    MarkedOnly(false);
+                end;
+            }
+        }
+        area(Promoted)
+        {
+            group(Category_Process)
+            {
+                Caption = 'Process';
+
+                actionref(CreateFromCRM_Promoted; CreateFromCRM)
+                {
+                }
+                actionref(ShowOnlyUncoupled_Promoted; ShowOnlyUncoupled)
+                {
+                }
+                actionref(ShowAll_Promoted; ShowAll)
+                {
+                }
+            }
+        }
+    }
+
+    trigger OnAfterGetRecord()
+    var
+        CRMIntegrationRecord: Record "CRM Integration Record";
+        RecordID: RecordID;
+        EmptyRecordID: RecordID;
+    begin
+        if CRMIntegrationRecord.FindRecordIDFromID(fps_usersetupid, DATABASE::"User Setup", RecordID) then
+            if CurrentlyCoupledCDSUsersetup.fps_usersetupid = fps_usersetupid then begin
+                Coupled := 'Current';
+                FirstColumnStyle := 'Strong';
+                Mark(true);
+            end else begin
+                Coupled := 'Yes';
+                FirstColumnStyle := 'Subordinate';
+                Mark(false);
+            end;
+
+        if RecordID = EmptyRecordID then begin
+            Coupled := 'No';
+            FirstColumnStyle := 'None';
+            Mark(true);
+        end;
+    end;
+
+    trigger OnInit()
+    begin
+        CODEUNIT.Run(CODEUNIT::"CRM Integration Management");
+        Commit();
+    end;
+
+    trigger OnOpenPage()
+    var
+        LookupCRMTables: Codeunit "Lookup CRM Tables";
+    begin
+        FilterGroup(4);
+        SetView(LookupCRMTables.GetIntegrationTableMappingView(DATABASE::"CDS fps_usersetup"));
+        FilterGroup(0);
+    end;
+
+    var
+        CurrentlyCoupledCDSUsersetup: Record "CDS fps_usersetup";
+        Coupled: Text;
+        FirstColumnStyle: Text;
+
+    procedure SetCurrentlyCoupledCDSJob(CDSUsersetup: Record "CDS fps_usersetup")
+    begin
+        CurrentlyCoupledCDSUsersetup := CDSUsersetup;
+    end;    
 }

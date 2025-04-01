@@ -1,4 +1,4 @@
-page 80005 "CRM Job List"
+page 80005 "Dataverse Job List"
 {
     ApplicationArea = Suite;
     Caption = 'Jobs - Dataverse';

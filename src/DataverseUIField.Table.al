@@ -239,6 +239,10 @@ table 80001 "Dataverse UI Field"
     begin
         if (FieldBC.Type = FieldBC.Type::Code) and (FieldDataverse.Type = FieldDataverse.Type::Text) then
             exit;
+
+        if FieldDataverse.type = FieldDataverse.Type::GUID then
+            exit;
+
         if FieldBC.Type <> FieldDataverse.Type then
             Error(FieldTypeNotTheSameErr, FieldDataverse."Field Caption", FieldDataverse.Type, FieldBC.Type);
     end;
