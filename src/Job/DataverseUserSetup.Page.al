@@ -34,6 +34,10 @@ page 80006 "Dataverse User Setup"
                 {
                     ToolTip = 'Specifies the value of the E-Mail field.', Comment = '%';
                 }
+                field(fps_userfullname; Rec.fps_userfullname)
+                {
+                    ToolTip = 'Specifies the value of the User Full Name field.', Comment = '%';
+                }
                 field(fps_userid; Rec.fps_userid)
                 {
                     ToolTip = 'Specifies the value of the User ID field.', Comment = '%';

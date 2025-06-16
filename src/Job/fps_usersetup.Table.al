@@ -21,6 +21,7 @@ ExternalAccess = Read;
 Description = 'Datum en tijdstip waarop de record is gemaakt.';
 Caption = 'Gemaakt op';
 }
+
 field(6; createdonbehalfby; GUID)
 {
 ExternalName = 'createdonbehalfby';
@@ -35,6 +36,13 @@ ExternalName = 'fps_email';
 ExternalType = 'String';
 Description = 'Type the E-Mail of the User Setup';
 Caption = 'E-Mail';
+}
+field(36; fps_userfullname; Text[80])
+{
+ExternalName = 'fps_userfullname';
+ExternalType = 'String';
+Description = 'Type the User Full Name of the User Setup';
+Caption = 'User Full Name';
 }
 field(34; fps_userid; Text[50])
 {
@@ -57,7 +65,7 @@ ExternalType = 'Integer';
 Description = 'Volgnummer van de import waarmee deze record is gemaakt.';
 Caption = 'Volgnummer van de importbewerking';
 }
-field(5; modifiedby; GUID)
+field(5; ModifiedBy; GUID)
 {
 ExternalName = 'modifiedby';
 ExternalType = 'Lookup';

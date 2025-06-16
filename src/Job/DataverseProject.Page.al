@@ -17,7 +17,12 @@ page 80007 "Dataverse Project"
                 field(ctb_name; Rec.ctb_name)
                 {
                     ToolTip = 'Specifies the value of the Job Description field.', Comment = '%';
-                } 
+                }
+                field(ctb_description; rec.ctb_description)
+                {
+                    ToolTip = 'Specifies the value of the Beschrijving field.', Comment = '%';
+                    Visible = false;
+                }                 
                 field(ctb_projectcode; Rec.ctb_projectcode)
                 {
                     ToolTip = 'Specifies the value of the Projectcode field.', Comment = '%';
@@ -49,10 +54,11 @@ page 80007 "Dataverse Project"
                 field(createdby; Rec.createdby)
                 {
                     ToolTip = 'Specifies the value of the Gemaakt door field.', Comment = '%';
+                    Visible = false;
                 }
                 field(createdon; Rec.createdon)
                 {
-                    ToolTip = 'Specifies the value of the Gemaakt op field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Gemaakt op field.', Comment = '%';                    
                 }
                 field(createdonbehalfby; Rec.createdonbehalfby)
                 {
@@ -77,11 +83,6 @@ page 80007 "Dataverse Project"
                 field(ctb_county; Rec.ctb_county)
                 {
                     ToolTip = 'Specifies the value of the Provincie field.', Comment = '%';
-                    Visible = false;                    
-                }
-                field(ctb_description; Rec.ctb_description)
-                {
-                    ToolTip = 'Specifies the value of the Beschrijving field.', Comment = '%';
                     Visible = false;                    
                 }
                 field(ctb_enddate; Rec.ctb_enddate)
@@ -167,6 +168,7 @@ page 80007 "Dataverse Project"
                 field(modifiedby; Rec.modifiedby)
                 {
                     ToolTip = 'Specifies the value of the Gewijzigd door field.', Comment = '%';
+                    Visible = false;
                 }
                 field(modifiedon; Rec.modifiedon)
                 {

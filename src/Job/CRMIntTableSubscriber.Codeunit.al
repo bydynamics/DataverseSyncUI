@@ -8,6 +8,7 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
 
     var
         SourceDestCodePatternTxt: Label '%1-%2', Locked = true;
+        SourceDestCodePatternSingleTxt: Label '%1', Locked = true;
         CRMSynchHelper: Codeunit "CRM Synch. Helper";
         CRMProductName: Codeunit "CRM Product Name";
         CDSIntegrationImpl: Codeunit "CDS Integration Impl.";
@@ -29,19 +30,26 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
                 begin
                     //CheckSalesInvoiceLineItemsAreCoupled(SourceRecordRef);
                     UpdateCDSJobBeforeInsertRecord(SourceRecordRef, DestinationRecordRef);
-                end;            
+                end;
             'Job-CDS ctb_project':
                 begin
                     //CheckSalesInvoiceLineItemsAreCoupled(SourceRecordRef);
                     UpdateCDSProjectBeforeInsertRecord(SourceRecordRef, DestinationRecordRef);
-                end;                       
-        end;                             
+                end;
+        end;
     end;
 
     local procedure GetSourceDestCode(SourceRecordRef: RecordRef; DestinationRecordRef: RecordRef): Text
     begin
         if (SourceRecordRef.Number() <> 0) and (DestinationRecordRef.Number() <> 0) then
             exit(StrSubstNo(SourceDestCodePatternTxt, SourceRecordRef.Name(), DestinationRecordRef.Name()));
+        exit('');
+    end;
+
+    local procedure GetSourceDestCode(SourceRecordRef: RecordRef): Text
+    begin
+        if (SourceRecordRef.Number() <> 0) then
+            exit(StrSubstNo(SourceDestCodePatternSingleTxt, SourceRecordRef.Name()));
         exit('');
     end;
 
@@ -123,9 +131,9 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
             'CDS ctb_project-Job':
                 begin
                     AddCDSProjectCustomerNoToJob(SourceRecordRef, DestinationRecordRef);
-                end;                
+                end;
         end;
-    end; 
+    end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Integration Rec. Synch. Invoke", 'OnAfterInsertRecord', '', false, false)]
     procedure OnAfterInsertRecord(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
@@ -141,9 +149,9 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
             'CDS ctb_project-Job':
                 begin
                     AddCustomerNoToCDSProject(SourceRecordRef, DestinationRecordRef);
-                end;                
+                end;
         end;
-    end; 
+    end;
 
     // [EventSubscriber(ObjectType::Codeunit, Codeunit::"Integration Rec. Synch. Invoke", 'OnBeforeTransferRecordFields', '', false, false)]
     // procedure OnBeforeTransferRecordFields(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
@@ -162,7 +170,7 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
     //     end;
     // end;            
 
-   local procedure AddCDSJobCustomerNoToJob(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
+    local procedure AddCDSJobCustomerNoToJob(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
     var
         CRMConnectionSetup: Record "CRM Connection Setup";
         CDSJob: Record "CDS fps_job";
@@ -186,9 +194,19 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
         // CDSJob.fps_no := Job."No.";
         // SourceRecordRef.GetTable(CDSJob);
         // SourceRecordRef.Modify(false);
-    end;  
+    end;
 
-   local procedure AddCDSProjectCustomerNoToJob(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
+    local procedure UserSetupCalcfields(var SourceRecordRef: RecordRef)
+    var
+        UserSetup: Record "User Setup";
+        FieldRef: FieldRef;
+    begin
+        SourceRecordRef.SetTable(UserSetup);
+        FieldRef := SourceRecordRef.Field(UserSetup.FieldNo("User Full Name"));
+        FieldRef.CalcField();
+    end;
+
+    local procedure AddCDSProjectCustomerNoToJob(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
     var
         CRMConnectionSetup: Record "CRM Connection Setup";
         CDSProject: Record "CDS ctb_project";
@@ -212,9 +230,9 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
         // CDSJob.fps_no := Job."No.";
         // SourceRecordRef.GetTable(CDSJob);
         // SourceRecordRef.Modify(false);
-    end;  
+    end;
 
-   local procedure AddCustomerNoToCDSJob(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
+    local procedure AddCustomerNoToCDSJob(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
     var
         CRMConnectionSetup: Record "CRM Connection Setup";
         CDSJob: Record "CDS fps_job";
@@ -238,9 +256,9 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
         CDSJob.fps_no := Job."No.";
         SourceRecordRef.GetTable(CDSJob);
         //SourceRecordRef.Modify(false);
-    end;  
+    end;
 
-   local procedure AddCustomerNoToCDSProject(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
+    local procedure AddCustomerNoToCDSProject(SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef)
     var
         CRMConnectionSetup: Record "CRM Connection Setup";
         CDSProject: Record "CDS ctb_project";
@@ -249,6 +267,7 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
         CRMIntegrationRecord: Record "CRM Integration Record";
         CustomerRecordId: RecordId;
         RecRef: RecordRef;
+        FieldRef: FieldRef;
     begin
         //if not CRMConnectionSetup.IsBidirectionalSalesOrderIntEnabled() then
         //    exit;
@@ -263,20 +282,33 @@ codeunit 50118 "CRM Int. Table. Subscriber Ext"
         // it is required to calculate these fields, otherwise CDS fails to modify the entity
 
         // it is required to calculate these fields, otherwise CDS fails to modify the entity
-        if (CDSProject.cgk_accountidname = '') or (CDSProject.cgk_accountidname = '') then begin
-            CDSProject.SetAutoCalcFields(cgk_accountidname, cgk_accountidname);
+        if (CDSProject.cgk_accountidname = '') or (CDSProject.cgk_bcprojectmanageriduserid = '') then begin
+            CDSProject.SetAutoCalcFields(cgk_accountidname, cgk_bcprojectmanageriduserid);
             CDSProject.Find();
-        end;   
+        end;
+
         CDSProject.cgk_selltocustomerno := Job."Sell-to Customer No.";
         CDSProject.cgk_selltocustomername := Job."Sell-to Customer Name";
         CDSProject.ctb_projectcode := Job."No.";
-        CDSProject.Modify(false);
-        SourceRecordRef.GetTable(CDSProject);             
-    end;  
+        CDSProject.Modify();
+        SourceRecordRef.GetTable(CDSProject);
+    end;
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeUpdateCRMInvoiceBeforeInsertRecord(SourceRecordRef: RecordRef; DestinationRecordRef: RecordRef; var IsHandled: Boolean)
     begin
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Integration Table Synch.", 'OnBeforeSynchronize', '', false, false)]
+    local procedure IntegrationTableSynch_OnBeforeSynchronize(var SourceRecordRef: RecordRef; var DestinationRecordRef: RecordRef; var ForceModify: Boolean; var IgnoreSynchOnlyCoupledRecords: Boolean; var IsHandled: Boolean)
+    begin
+        case GetSourceDestCode(SourceRecordRef) of
+            'User Setup':
+                begin
+                    UserSetupCalcfields(SourceRecordRef);
+                end;
+        end;
+    end;
+
 
 }

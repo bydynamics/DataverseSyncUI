@@ -107,10 +107,11 @@ ExternalType = 'String';
 Description = 'Provincie van het adresblok.';
 Caption = 'Provincie';
 }
-field(39; ctb_description; Text[250])
+field(39; ctb_description; BLOB)
 {
 ExternalName = 'ctb_description';
 ExternalType = 'Memo';
+SubType = Memo;
 Description = 'Beschrijving van het project.';
 Caption = 'Beschrijving';
 }
@@ -207,10 +208,11 @@ ExternalType = 'Boolean';
 Description = 'Geeft aan of het bedrag automatisch berekend wordt.';
 Caption = 'Omzet';
 }
-field(58; ctb_tagcodes; Text[250])
+field(58; ctb_tagcodes; BLOB)
 {
 ExternalName = 'ctb_tagcodes';
 ExternalType = 'Memo';
+SubType = Memo;
 Description = 'Field to store Tag Codes of linked Tags.';
 Caption = 'Tag Codes';
 }
