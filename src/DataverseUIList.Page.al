@@ -1,4 +1,4 @@
-page 70102 "Dataverse UI List"
+page 80004 "Dataverse UI List"
 {
     ApplicationArea = All;
     Editable = false;

@@ -1,4 +1,4 @@
-page 70101 "Dataverse UI Fields"
+page 80003 "Dataverse UI Fields"
 {
     ApplicationArea = All;
     PageType = List;

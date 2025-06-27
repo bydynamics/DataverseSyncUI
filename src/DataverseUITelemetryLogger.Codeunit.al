@@ -1,4 +1,4 @@
-codeunit 70102 "Dataverse UI Telemetry Logger" implements "Telemetry Logger"
+codeunit 50035 "Dataverse UI Telemetry Logger" implements "Telemetry Logger"
 {
     Access = Internal;
 

@@ -1,4 +1,4 @@
-table 70106 "Dataverse UI Setup"
+table 80004 "Dataverse UI Setup"
 {
     DataClassification = ToBeClassified;
 

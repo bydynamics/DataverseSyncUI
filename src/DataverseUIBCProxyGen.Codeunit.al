@@ -1,4 +1,4 @@
-codeunit 70103 "Dataverse UI BC Proxy Gen."
+codeunit 50032 "Dataverse UI BC Proxy Gen."
 {
     internal procedure CreateBCProxyTable(DataverseUITable: Record "Dataverse UI Table")
     var

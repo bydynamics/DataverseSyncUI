@@ -1,4 +1,4 @@
-table 70101 "Dataverse UI Field"
+table 80003 "Dataverse UI Field"
 {
     DataClassification = ToBeClassified;
 

@@ -1,4 +1,4 @@
-page 70103 "Dataverse UI Tables"
+page 80006 "Dataverse UI Tables"
 {
     ApplicationArea = All;
     PageType = ListPart;

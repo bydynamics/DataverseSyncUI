@@ -1,4 +1,4 @@
-page 70100 "Dataverse UI Setup"
+page 80005 "Dataverse UI Setup"
 {
     ApplicationArea = All;
     Caption = 'Dataverse UI Setup';

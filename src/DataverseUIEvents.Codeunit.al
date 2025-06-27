@@ -1,4 +1,4 @@
-codeunit 70100 "Dataverse UI Events"
+codeunit 50034 "Dataverse UI Events"
 {
     internal procedure InsertIntegrationMapping(IntegrationTableMappingName: Code[20]; Update: Boolean)
     var
