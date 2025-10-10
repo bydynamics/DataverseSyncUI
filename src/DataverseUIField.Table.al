@@ -213,8 +213,8 @@ table 80003 "Dataverse UI Field"
     end;
 
     internal procedure CheckFieldTypeForSync(FieldRec: Record Field)
-    begin
-        if FieldRec.Class <> FieldRec.Class::Normal then
+    begin   
+        if FieldRec.Class = FieldRec.Class::FlowFilter then
             Error(FieldClassNormalErr);
 
         case FieldRec.Type of
